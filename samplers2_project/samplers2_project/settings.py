@@ -51,6 +51,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'webpage.middleware.WebpageExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'samplers2_project.urls'
@@ -96,8 +97,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 
-
-
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -108,6 +108,19 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'webpage.pipelines.user_must_exists',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    #'webpage.pipelines.save_profile',  # <--- ver si esto es necesario, por ahora no
+)
 
 
 # Password validation

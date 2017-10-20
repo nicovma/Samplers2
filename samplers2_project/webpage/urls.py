@@ -5,6 +5,6 @@ from . import views
 app_name = 'webpage'
 urlpatterns = [
    # ex: /webpage/
-    #url(r'^$', views.index, name='index'),
+    url(r'^$', views.signup, name='signup'),
     
 ]
